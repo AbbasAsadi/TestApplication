@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="itemViewModel"
+            type="com.example.testapplication.viewModel.ItemViewModel" />
+    </data>
+
+        <Button
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16sp"
+            android:text="@{itemViewModel.title}"
+            android:textColor="#2776FF"
+            android:textSize="24sp" />
+
+</layout>
