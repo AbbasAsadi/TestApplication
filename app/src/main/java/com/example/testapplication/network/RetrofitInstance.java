@@ -15,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
+    public static final String AUTHORIZATION = "Authorization";
     private static RetrofitInstance sInstance;
     private Retrofit mRetrofit;
 
@@ -23,7 +24,7 @@ public class RetrofitInstance {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain ->
         {
             Request newRequest  = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer" + Repository.TOKEN)
+                    .addHeader(AUTHORIZATION, Repository.TOKEN)
                     .build();
             return chain.proceed(newRequest);
         }).build();
