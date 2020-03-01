@@ -8,6 +8,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface API {
-    @GET("idn/product_answers/my")
+    @GET("idn/product-answers/my")
     Call<List<ResponseBody>> getProductAnswer();
 }

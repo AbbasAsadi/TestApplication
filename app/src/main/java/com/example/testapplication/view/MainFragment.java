@@ -24,6 +24,7 @@ import com.example.testapplication.RecyclerAdapter;
 import com.example.testapplication.Repository;
 import com.example.testapplication.databinding.FragmentMainBinding;
 import com.example.testapplication.model.ResponseBody;
+import com.example.testapplication.viewModel.ItemViewModel;
 
 import java.util.List;
 import java.util.Observable;
@@ -36,7 +37,7 @@ public class MainFragment extends DialogFragment {
     private static final String TAG = "MainFragment";
     private FragmentMainBinding mBinding;
     private RecyclerAdapter mAdapter;
-    private static MutableLiveData<List<ResponseBody>> mLiveItemList;
+    private static MutableLiveData<List<ItemViewModel>> mLiveItemList;
 
     public static MainFragment newInstance() {
 
@@ -47,7 +48,7 @@ public class MainFragment extends DialogFragment {
         return fragment;
     }
 
-    private MutableLiveData<List<ResponseBody>> getLiveItemList() {
+    private MutableLiveData<List<ItemViewModel>> getLiveItemList() {
         if (mLiveItemList == null) {
             mLiveItemList = new MutableLiveData<>();
         }
@@ -63,7 +64,7 @@ public class MainFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<ResponseBody> items = Repository.getInstance().getResponseBodyList();
+        List<ItemViewModel> items = Repository.getInstance().getResponseBodyList();
         getLiveItemList().setValue(items);
     }
 
@@ -78,11 +79,11 @@ public class MainFragment extends DialogFragment {
 
         mBinding.recyclerViewFragment.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Observer<List<ResponseBody>> observer = responseBodies -> {
-            if (responseBodies == null || responseBodies.isEmpty()) {
+        Observer<List<ItemViewModel>> observer = itemViewModels -> {
+            if (itemViewModels == null || itemViewModels.isEmpty()) {
                 Toast.makeText(getActivity(), "لیست خالی میباشد!!!", Toast.LENGTH_SHORT).show();
             } else {
-                mAdapter = new RecyclerAdapter(getActivity(), responseBodies);
+                mAdapter = new RecyclerAdapter(getActivity(), itemViewModels);
                 mBinding.recyclerViewFragment.setAdapter(mAdapter);
             }
         };

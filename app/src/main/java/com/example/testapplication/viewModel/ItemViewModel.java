@@ -1,15 +1,23 @@
 package com.example.testapplication.viewModel;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
+
+import androidx.lifecycle.ViewModel;
 
 import com.example.testapplication.model.ResponseBody;
 
-public class ItemViewModel extends BaseObservable {
+public class ItemViewModel extends ViewModel {
     private ResponseBody mResponseBody;
 
+    public ItemViewModel(ResponseBody responseBody) {
+        mResponseBody = responseBody;
+    }
 
-    public ResponseBody getResponseBody() {
+    public String getTitle() {
+        return mResponseBody.getBody();
+    }
+
+
+    /*public ResponseBody getResponseBody() {
         return mResponseBody;
     }
 
@@ -24,5 +32,5 @@ public class ItemViewModel extends BaseObservable {
     }
 
     public void onItemClicked() {
-    }
+    }*/
 }

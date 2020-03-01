@@ -19,14 +19,14 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<ResponseBody> mList;
+    private List<ItemViewModel> mList;
 
-    public RecyclerAdapter(Context context, List<ResponseBody> list) {
+    public RecyclerAdapter(Context context, List<ItemViewModel> list) {
         mContext = context;
         mList = list;
     }
 
-    public void setList(List<ResponseBody> list) {
+    public void setList(List<ItemViewModel> list) {
         mList = list;
     }
 
@@ -56,12 +56,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(ListItemBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
-            mBinding.setItemViewModel(new ItemViewModel());
         }
 
-        public void bind(ResponseBody responseBody) {
-            mBinding.getItemViewModel().setResponseBody(responseBody);
+        public void bind(ItemViewModel viewModel) {
+            this.mBinding.setItemViewModel(viewModel);
             mBinding.executePendingBindings();
+        }
+
+        public ListItemBinding getBinding() {
+            return mBinding;
         }
     }
 

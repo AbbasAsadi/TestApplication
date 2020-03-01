@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.testapplication.model.ResponseBody;
 import com.example.testapplication.network.RetrofitInstance;
 import com.example.testapplication.network.interfaces.API;
+import com.example.testapplication.viewModel.ItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,12 @@ public class Repository {
         return mInstance;
     }
 
-    public List<ResponseBody> getResponseBodyList() {
-        return mResponseBodyList;
+    public List<ItemViewModel> getResponseBodyList() {
+        List<ItemViewModel> itemViewModels = new ArrayList<>();
+        for (ResponseBody responseBody : mResponseBodyList) {
+            itemViewModels.add(new ItemViewModel(responseBody));
+        }
+        return itemViewModels;
     }
 
     public void setResponseBodyList() {
@@ -46,7 +51,10 @@ public class Repository {
             @Override
             public void onResponse(Call<List<ResponseBody>> call, Response<List<ResponseBody>> response) {
                 mResponseBodyList = response.body();
-                Log.d(TAG, "onResponse: " + response.body().size());
+                if (mResponseBodyList.isEmpty() || mResponseBodyList == null) {
+                    Log.d(TAG, "onResponse: " + "response is null");
+                } else
+                    Log.d(TAG, "onResponse: " + response.body().size());
             }
 
             @Override
