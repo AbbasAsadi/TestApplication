@@ -34,19 +34,6 @@ public class RetrofitInstance {
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-       /* HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
-
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-
-                .build();
-*/
     }
 
     public static RetrofitInstance getInstance(String baseUrl) {
@@ -59,15 +46,4 @@ public class RetrofitInstance {
     public Retrofit getRetrofit() {
         return mRetrofit;
     }
-/*
-    @NotNull
-    @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
-        Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader("User-Agent" , CallApiHelper.createUserAgent());
-        if(TokenManager.getToken()!=null){
-            builder.addHeader(AUTHORIZATION, TokenManager.getToken());
-        }
-        return chain.proceed(builder.build());
-    }*/
 }

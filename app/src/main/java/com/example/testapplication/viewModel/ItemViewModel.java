@@ -16,21 +16,4 @@ public class ItemViewModel extends ViewModel {
         return mResponseBody.getBody();
     }
 
-
-    /*public ResponseBody getResponseBody() {
-        return mResponseBody;
-    }
-
-    public void setResponseBody(ResponseBody responseBody) {
-        mResponseBody = responseBody;
-        notifyChange();
-    }
-
-    @Bindable
-    public String getTitle() {
-        return mResponseBody.getProductQuestion().getBody();
-    }
-
-    public void onItemClicked() {
-    }*/
 }

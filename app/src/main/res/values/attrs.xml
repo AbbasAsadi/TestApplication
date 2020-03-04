@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomView">
+        <attr name="customViewText" format="string" />
+        <attr name="customViewHint" format="string" />
+        <attr name="customViewType" format="enum" />
+        <attr name="customViewIsRequired" format="boolean"/>
+    </declare-styleable>
+</resources>
