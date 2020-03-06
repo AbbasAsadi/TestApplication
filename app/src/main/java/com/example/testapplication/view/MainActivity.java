@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
                 MainFragment.newInstance().show(getSupportFragmentManager() , null));
 
         buttonForm.setOnClickListener(v ->
-                FormActivity.newIntent(this));
+                startActivity(FormActivity.newIntent(this)));
+
 
 
     }

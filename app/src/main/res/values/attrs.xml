@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CustomView">
+    <declare-styleable name="InputCustomView">
         <attr name="customViewText" format="string" />
         <attr name="customViewHint" format="string" />
-        <attr name="customViewType" format="enum" />
-        <attr name="customViewIsRequired" format="boolean"/>
+        <attr name="customViewType" format="integer">
+            <enum name="name" value="1"/>
+            <enum name="phoneNumber" value="2" />
+            <enum name="email" value="3"/>
+        </attr>
+        <!--<attr name="customViewIsRequired" format="boolean">
+            <enum name="true" value="true"/>
+            <enum name="false" value="false"/>
+        </attr>-->
     </declare-styleable>
 </resources>
