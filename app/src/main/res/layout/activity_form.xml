@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff7f24"
-    tools:context=".FormActivity">
-
+    tools:context=".view.FormActivity">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <com.example.testapplication.customView.InputCustomView
         android:id="@+id/email_input"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="50dp"
         app:customViewIsRequired="TRUE"
         app:customViewType="email"
-        app:customViewHint="email" />
+        app:customViewHint="ایمیل" />
 
     <com.example.testapplication.customView.InputCustomView
         android:id="@+id/phone_number_input"
@@ -24,16 +29,50 @@
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/email_input"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="700dp"
+        android:layout_marginBottom="50dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         app:customViewType="phoneNumber"
         app:customViewIsRequired="TRUE"
-        app:customViewHint="phoneNumber" />
+        app:customViewHint="شماره موبایل"/>
+
     <com.example.testapplication.customView.InputCustomView
         android:id="@+id/name_input"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number_input"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="700dp"
+        android:layout_marginBottom="50dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         app:customViewIsRequired="FALSE"
         app:customViewType="name"
-        app:customViewHint="name" />
+        app:customViewHint="نام" />
+    <com.example.testapplication.customView.InputCustomView
+        android:id="@+id/family_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/name_input"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="700dp"
+        android:layout_marginBottom="50dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:customViewIsRequired="FALSE"
+        app:customViewType="name"
+        app:customViewHint="نام خانوادگی"/>
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ثبت درخواست "
+        app:layout_constraintTop_toBottomOf="@id/family_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="200dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
