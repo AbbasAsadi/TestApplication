@@ -23,7 +23,7 @@ public class InputCustomView extends TextInputEditText {
     private String mHint;
     private TypedArray mTypeArray;
     private int mIsRequired;
-    private boolean isValid = false;
+    private boolean mIsValid;
 
     public InputCustomView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,7 +33,6 @@ public class InputCustomView extends TextInputEditText {
             mHint = mTypeArray.getString(R.styleable.InputCustomView_customViewHint);
             mIsRequired = mTypeArray.getInt(R.styleable.InputCustomView_customViewIsRequired, UNREQUIRED);
             mTextType = mTypeArray.getInt(R.styleable.InputCustomView_customViewType, 0);
-
         } finally {
             mTypeArray.recycle();
         }
@@ -47,10 +46,7 @@ public class InputCustomView extends TextInputEditText {
                 break;
             case PHONE_NUMBER:
                 setInputType(InputType.TYPE_CLASS_PHONE);
-                int maxLength = 11;
-                InputFilter[] fArray = new InputFilter[1];
-                fArray[0] = new InputFilter.LengthFilter(maxLength);
-                setFilters(fArray);
+                setMaxLengthForPhoneNumber();
                 break;
             case EMAIL:
                 setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -58,54 +54,59 @@ public class InputCustomView extends TextInputEditText {
         }
     }
 
-    public boolean isValid() {
-        return isValid;
+    private void setMaxLengthForPhoneNumber() {
+        int maxLength = 11;
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(maxLength);
+        setFilters(fArray);
     }
 
+    public boolean isValid() {
+        return mIsValid;
+    }
 
-    private boolean isMyTextValid(String text) {
-        if (text != null && text.isEmpty()) {
-            if (mIsRequired == REQUIRED) {
-                setError("فیلد خالی است!!!");
-                isValid = false;
+    private void isMyTextValid(String text) {
+        if (text != null) {
+            if (text.isEmpty()) {
+                if (mIsRequired == REQUIRED) {
+                    setError("فیلد خالی است!!!");
+                    mIsValid = false;
+                } else {
+                    mIsValid = true;
+                }
             } else {
-                isValid = true;
-            }
-        } else {
-            switch (mTextType) {
-                case NAME:
-                    isNameValid(text);
-                    break;
-                case EMAIL:
-                    isEmailValid(text);
-                    break;
-                case PHONE_NUMBER:
-                    isPhoneNumberValid(text);
-                    break;
-                default:
+                switch (mTextType) {
+                    case NAME:
+                        isNameValid(text);
+                        break;
+                    case EMAIL:
+                        isEmailValid(text);
+                        break;
+                    case PHONE_NUMBER:
+                        isPhoneNumberValid(text);
+                        break;
+                    default:
 
+                }
             }
-        } /*else {
-           setError("null");
-        }*/
-        return isValid;
+        }
     }
 
     private void isPhoneNumberValid(String text) {
         if (text.length() != 11 || !text.startsWith("09")) {
             setError("شماره وارد شده صحیح نمیباشد!!!");
-            isValid = false;
+            mIsValid = false;
         } else {
-            isValid = true;
+            mIsValid = true;
         }
     }
 
     private void isNameValid(String text) {
         if (text.matches(".*\\d.*")) {
             setError("نام نباید شامل عدد باشد!!!");
-            isValid = false;
+            mIsValid = false;
         } else {
-            isValid = true;
+            mIsValid = true;
         }
     }
 
@@ -115,9 +116,9 @@ public class InputCustomView extends TextInputEditText {
                 text.lastIndexOf(".") < text.lastIndexOf("@") ||
                 text.lastIndexOf(".") == text.length() - 1) {
             setError("ایمیل وارد شده صحیح نمیباشد!!!");
-            isValid = false;
+            mIsValid = false;
         } else {
-            isValid = true;
+            mIsValid = true;
         }
     }
 
@@ -127,17 +128,12 @@ public class InputCustomView extends TextInputEditText {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
 
         String text = getText().toString();
+        isMyTextValid(text);
 
-        if (!text.isEmpty()) {
-            if (!isMyTextValid(text)) {
-                super.onFocusChanged(true, direction, previouslyFocusedRect);
-            } else {
-                super.onFocusChanged(false, direction, previouslyFocusedRect);
-
-            }
+        if (mIsValid) {
+            super.onFocusChanged(false, direction, previouslyFocusedRect);
         } else {
-            if (mIsRequired == REQUIRED)
-                setError("فیلد خالی !!!");
+            super.onFocusChanged(true, direction, previouslyFocusedRect);
         }
     }
 }

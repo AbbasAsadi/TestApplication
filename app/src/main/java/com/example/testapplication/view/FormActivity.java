@@ -1,12 +1,12 @@
 package com.example.testapplication.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testapplication.R;
 import com.example.testapplication.customView.InputCustomView;
@@ -19,8 +19,9 @@ public class FormActivity extends AppCompatActivity {
     private Button mConfirmButton;
 
     public static Intent newIntent(Context context) {
-        return new Intent(context , FormActivity.class);
+        return new Intent(context, FormActivity.class);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +33,16 @@ public class FormActivity extends AppCompatActivity {
             if (!mCustomViewEmail.isValid()) {
                 mCustomViewEmail.setFocusable(true);
                 mCustomViewEmail.requestFocus();
-            }else if (!mCustomViewPhoneNumber.isValid()) {
+            } else if (!mCustomViewPhoneNumber.isValid()) {
                 mCustomViewPhoneNumber.setFocusable(true);
                 mCustomViewPhoneNumber.requestFocus();
-            }else if (!mCustomViewName.isValid()) {
+            } else if (!mCustomViewName.isValid()) {
                 mCustomViewName.setFocusable(true);
                 mCustomViewName.requestFocus();
-            }else if (!mCustomViewFamily.isValid()) {
+            } else if (!mCustomViewFamily.isValid()) {
                 mCustomViewFamily.setFocusable(true);
                 mCustomViewFamily.requestFocus();
-            }else {
+            } else {
                 Toast.makeText(this, "ثبت نام با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
                 startActivity(MainActivity.newIntent(this));
             }

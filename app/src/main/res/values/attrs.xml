@@ -5,13 +5,13 @@
         <attr name="customViewText" format="string" />
         <attr name="customViewHint" format="string" />
         <attr name="customViewType" format="integer">
-            <enum name="name" value="1"/>
+            <enum name="name" value="1" />
             <enum name="phoneNumber" value="2" />
-            <enum name="email" value="3"/>
+            <enum name="email" value="3" />
         </attr>
         <attr name="customViewIsRequired" format="integer">
-            <enum name="TRUE" value="0"/>
-            <enum name="FALSE" value="1"/>
+            <enum name="TRUE" value="0" />
+            <enum name="FALSE" value="1" />
         </attr>
     </declare-styleable>
 </resources>
