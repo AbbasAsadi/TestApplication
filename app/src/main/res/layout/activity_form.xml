@@ -8,19 +8,32 @@
     tools:context=".FormActivity">
 
     <com.example.testapplication.customView.InputCustomView
+        android:id="@+id/email_input"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:customViewIsRequired="TRUE"
         app:customViewType="email"
         app:customViewHint="email" />
 
     <com.example.testapplication.customView.InputCustomView
+        android:id="@+id/phone_number_input"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_input"
         app:layout_constraintStart_toStartOf="parent"
         app:customViewType="phoneNumber"
+        app:customViewIsRequired="TRUE"
         app:customViewHint="phoneNumber" />
+    <com.example.testapplication.customView.InputCustomView
+        android:id="@+id/name_input"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_number_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:customViewIsRequired="FALSE"
+        app:customViewType="name"
+        app:customViewHint="name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

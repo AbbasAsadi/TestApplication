@@ -9,9 +9,9 @@
             <enum name="phoneNumber" value="2" />
             <enum name="email" value="3"/>
         </attr>
-        <!--<attr name="customViewIsRequired" format="boolean">
-            <enum name="true" value="true"/>
-            <enum name="false" value="false"/>
-        </attr>-->
+        <attr name="customViewIsRequired" format="integer">
+            <enum name="TRUE" value="0"/>
+            <enum name="FALSE" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>
