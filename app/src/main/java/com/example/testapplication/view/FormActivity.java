@@ -30,16 +30,16 @@ public class FormActivity extends AppCompatActivity {
 
 
         mConfirmButton.setOnClickListener(v -> {
-            if (!mCustomViewEmail.isValid()) {
+            if (!mCustomViewEmail.isValid() && mCustomViewEmail.isInputEmpty()) {
                 mCustomViewEmail.setFocusable(true);
                 mCustomViewEmail.requestFocus();
-            } else if (!mCustomViewPhoneNumber.isValid()) {
+            } else if (!mCustomViewPhoneNumber.isValid() && mCustomViewPhoneNumber.isInputEmpty()) {
                 mCustomViewPhoneNumber.setFocusable(true);
                 mCustomViewPhoneNumber.requestFocus();
-            } else if (!mCustomViewName.isValid()) {
+            } else if (!mCustomViewName.isValid() && mCustomViewName.isInputEmpty()) {
                 mCustomViewName.setFocusable(true);
                 mCustomViewName.requestFocus();
-            } else if (!mCustomViewFamily.isValid()) {
+            } else if (!mCustomViewFamily.isValid() && mCustomViewFamily.isInputEmpty()) {
                 mCustomViewFamily.setFocusable(true);
                 mCustomViewFamily.requestFocus();
             } else {

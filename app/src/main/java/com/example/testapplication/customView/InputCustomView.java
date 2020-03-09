@@ -6,9 +6,12 @@ import android.graphics.Rect;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.util.Patterns;
 
 import com.example.testapplication.R;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.regex.Matcher;
 
 public class InputCustomView extends TextInputEditText {
     private final int REQUIRED = 0;
@@ -66,38 +69,32 @@ public class InputCustomView extends TextInputEditText {
     }
 
     private void isMyTextValid(String text) {
-        if (text != null) {
-            if (text.isEmpty()) {
-                if (mIsRequired == REQUIRED) {
-                    setError("فیلد خالی است!!!");
-                    mIsValid = false;
-                } else {
-                    mIsValid = true;
-                }
-            } else {
-                switch (mTextType) {
-                    case NAME:
-                        isNameValid(text);
-                        break;
-                    case EMAIL:
-                        isEmailValid(text);
-                        break;
-                    case PHONE_NUMBER:
-                        isPhoneNumberValid(text);
-                        break;
-                    default:
-
-                }
+        if (text != null && !text.isEmpty()) {
+            switch (mTextType) {
+                case NAME:
+                    isNameValid(text);
+                    break;
+                case EMAIL:
+                    isEmailValid(text);
+                    break;
+                case PHONE_NUMBER:
+                    isPhoneNumberValid(text);
+                    break;
+                default:
             }
         }
     }
 
     private void isPhoneNumberValid(String text) {
-        if (text.length() != 11 || !text.startsWith("09")) {
-            setError("شماره وارد شده صحیح نمیباشد!!!");
-            mIsValid = false;
+        if (text.length() == 11 && text.startsWith("09")) {
+            Matcher matcher = Patterns.PHONE.matcher(text);
+            mIsValid = matcher.matches();
         } else {
-            mIsValid = true;
+            mIsValid = false;
+        }
+
+        if (!mIsValid) {
+            setError("شماره وارد شده صحیح نمیباشد!!!");
         }
     }
 
@@ -111,17 +108,34 @@ public class InputCustomView extends TextInputEditText {
     }
 
     private void isEmailValid(String text) {
-        if (text.isEmpty() ||
-                !text.contains("@") ||
+        Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(text);
+        mIsValid = matcher.matches();
+        if (!mIsValid)
+            setError("ایمیل وارد شده صحیح نمیباشد!!!");
+
+       /* if (!text.contains("@") ||
                 text.lastIndexOf(".") < text.lastIndexOf("@") ||
                 text.lastIndexOf(".") == text.length() - 1) {
             setError("ایمیل وارد شده صحیح نمیباشد!!!");
             mIsValid = false;
         } else {
             mIsValid = true;
-        }
+        }*/
     }
 
+
+    public boolean isInputEmpty() {
+        String text = getText().toString();
+        if (text.isEmpty()) {
+            if (mIsRequired == REQUIRED) {
+                setError("فیلد خالی است!!!");
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 
     @Override
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
