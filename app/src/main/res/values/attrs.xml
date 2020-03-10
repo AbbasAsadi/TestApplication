@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--this is our custom attribute
+    customViewType declare type of input with pass an integer value
+    customViewIsRequired declare that this field can be empty or not -->
     <declare-styleable name="InputCustomView">
         <attr name="customViewText" format="string" />
         <attr name="customViewHint" format="string" />

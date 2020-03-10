@@ -14,6 +14,7 @@ import com.example.testapplication.R;
 import com.example.testapplication.customView.Checker;
 
 public class FormActivity extends AppCompatActivity {
+
     private Button mConfirmButton;
     private NestedScrollView mScrollView;
     private ConstraintLayout mConstraintLayout;
@@ -29,6 +30,11 @@ public class FormActivity extends AppCompatActivity {
         initUI();
 
 
+        /**
+         * in button onClicked we check validation with checker class
+         * is valid method return a boolean value that if equals with true then our all input values is acceptable
+         * and launch MainActivity
+         */
         mConfirmButton.setOnClickListener(v -> {
             Checker checker = new Checker(mScrollView, mConstraintLayout);
             if (checker.IsValid()) {
