@@ -76,10 +76,6 @@ public class InputCustomView extends TextInputLayout {
         mEditText.setFilters(fArray);
     }
 
-    public boolean isValid() {
-        return mIsValid;
-    }
-
     public boolean isMyTextValid() {
         String text = mEditText.getText().toString();
         switch (mTextType) {
@@ -94,6 +90,8 @@ public class InputCustomView extends TextInputLayout {
                 break;
             default:
         }
+        if (mIsValid)
+            setErrorEnabled(false);
         return mIsValid;
     }
 

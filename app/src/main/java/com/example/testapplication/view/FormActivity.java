@@ -7,18 +7,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 
 import com.example.testapplication.R;
-import com.example.testapplication.customView.InputCustomView;
+import com.example.testapplication.customView.Checker;
 
 public class FormActivity extends AppCompatActivity {
-    private InputCustomView mCustomViewName;
-    private InputCustomView mCustomViewFamily;
-    private InputCustomView mCustomViewEmail;
-    private InputCustomView mCustomViewPhoneNumber;
     private Button mConfirmButton;
     private NestedScrollView mScrollView;
+    private ConstraintLayout mConstraintLayout;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, FormActivity.class);
@@ -32,17 +30,8 @@ public class FormActivity extends AppCompatActivity {
 
 
         mConfirmButton.setOnClickListener(v -> {
-            mConfirmButton.setFocusable(true);
-            mConfirmButton.requestFocus();
-            if (!mCustomViewEmail.isMyTextValid()) {
-                mScrollView.smoothScrollTo(0 , mCustomViewEmail.getTop() - 24 );
-            } else if (!mCustomViewPhoneNumber.isMyTextValid()) {
-                mScrollView.post(() -> mScrollView.smoothScrollTo(0 , mCustomViewPhoneNumber.getTop() - 24));
-            } else if (!mCustomViewName.isMyTextValid()) {
-                mScrollView.post(() -> mScrollView.smoothScrollTo(0 , mCustomViewName.getTop() - 24));
-            } else if (!mCustomViewFamily.isMyTextValid()) {
-                mScrollView.post(() -> mScrollView.smoothScrollTo(0 , mCustomViewFamily.getTop() - 24));
-            } else {
+            Checker checker = new Checker(mScrollView, mConstraintLayout);
+            if (checker.IsValid()) {
                 Toast.makeText(this, "ثبت نام با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
                 startActivity(MainActivity.newIntent(this));
             }
@@ -51,10 +40,7 @@ public class FormActivity extends AppCompatActivity {
 
     private void initUI() {
         mScrollView = findViewById(R.id.scroll_view);
+        mConstraintLayout = findViewById(R.id.constrain);
         mConfirmButton = findViewById(R.id.confirm_button);
-        mCustomViewName = findViewById(R.id.name_input);
-        mCustomViewEmail = findViewById(R.id.email_input);
-        mCustomViewPhoneNumber = findViewById(R.id.phone_number_input);
-        mCustomViewFamily = findViewById(R.id.family_input);
     }
 }
