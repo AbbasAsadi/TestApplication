@@ -1,8 +1,8 @@
 package com.example.testapplication.customSearchView;
 
-import android.util.Log;
-
 import androidx.appcompat.widget.SearchView;
+
+import com.example.testapplication.viewModel.SearchActivityViewModel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +39,7 @@ public class ObserveSearchView {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(query ->
                         {
-                            Log.d(TAG, "observeSearchView: request for: " + query);
+                            SearchActivityViewModel.getInstance().doSearch(query);
                         }
                 );
     }
