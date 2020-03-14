@@ -24,12 +24,8 @@ import java.util.regex.Matcher;
 
 public class InputCustomView extends TextInputLayout {
     private final String TAG = "InputCustomView";
-
-    //describe that can be empty or not
-    private final int REQUIRED = 0;
-    private final int OPTIONAL = 1;
-
     //describe type of Input
+    private final int GENERAL = 0;
     private final int NAME = 1;
     private final int PHONE_NUMBER = 2;
     private final int EMAIL = 3;
@@ -39,8 +35,13 @@ public class InputCustomView extends TextInputLayout {
     private int mTextType;
     private String mHint;
     private TypedArray mTypeArray;
-    private int mIsRequired;
+    private int mMinLength;
+    private int mMaxLength;
+    private int mLength;
+    private boolean mIsRequired;
     private boolean mIsValid;
+    private boolean mIsOnlyText;
+    private boolean mIsOnlyNumber;
 
     /**
      * this is constructor of this class
@@ -48,7 +49,7 @@ public class InputCustomView extends TextInputLayout {
      * after that setType of {@link TextInputEditText}
      * and with setOnFocusChangeListener we understand that focus changed and
      * checked validation with isMyTextValid() method
-     * hasFocus is a boolean value that if focus is on a component that's value is true
+     * hasFocus is a boolean value that if focus is on a component, that's value is true
      * <p>
      * **note that for use this CustomView you should use Checker Class for
      * checkValidation and should add attrs.xml file to your values of res file**
@@ -69,6 +70,7 @@ public class InputCustomView extends TextInputLayout {
         }
 
         setTextInputType();
+        setMaxLength();
 
         mEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -88,11 +90,16 @@ public class InputCustomView extends TextInputLayout {
                 break;
             case PHONE_NUMBER:
                 mEditText.setInputType(InputType.TYPE_CLASS_PHONE);
-                setMaxLengthForPhoneNumber();
                 break;
             case EMAIL:
                 mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 break;
+            case GENERAL:
+                if (mIsOnlyNumber) {
+                    mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                } else if (mIsOnlyText) {
+                    mEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+                }
         }
     }
 
@@ -105,8 +112,13 @@ public class InputCustomView extends TextInputLayout {
         mTypeArray = mContext.getTheme().obtainStyledAttributes(attrs, R.styleable.InputCustomView, 0, 0);
         try {
             mHint = mTypeArray.getString(R.styleable.InputCustomView_customViewHint);
-            mIsRequired = mTypeArray.getInt(R.styleable.InputCustomView_customViewIsRequired, OPTIONAL);
+            mIsRequired = mTypeArray.getBoolean(R.styleable.InputCustomView_customViewIsRequired, false);
             mTextType = mTypeArray.getInt(R.styleable.InputCustomView_customViewType, 0);
+            mMinLength = mTypeArray.getInt(R.styleable.InputCustomView_customViewMinLength, 0);
+            mMaxLength = mTypeArray.getInt(R.styleable.InputCustomView_customViewMaxLength, 98);
+            mLength = mTypeArray.getInt(R.styleable.InputCustomView_customViewLength, 0);
+            mIsOnlyText = mTypeArray.getBoolean(R.styleable.InputCustomView_customViewIsOnlyText, false);
+            mIsOnlyNumber = mTypeArray.getBoolean(R.styleable.InputCustomView_customViewIsOnlyNumber, false);
         } finally {
             mTypeArray.recycle();
         }
@@ -115,8 +127,15 @@ public class InputCustomView extends TextInputLayout {
     /**
      * if type of {@link TextInputEditText} is PHONE_NUMBER we limit length of that to 11
      */
-    private void setMaxLengthForPhoneNumber() {
-        int maxLength = 11;
+    private void setMaxLength() {
+        int maxLength = 100;
+        if (mTextType == PHONE_NUMBER)
+            maxLength = 11;
+        else if (mMaxLength != 98)
+            maxLength = mMaxLength;
+        else if (mLength != 0)
+            maxLength = mLength;
+
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(maxLength);
         mEditText.setFilters(fArray);
@@ -129,19 +148,63 @@ public class InputCustomView extends TextInputLayout {
      */
     public boolean isMyTextValid() {
         String text = mEditText.getText().toString();
-        switch (mTextType) {
-            case NAME:
-                isNameValid(text);
-                break;
-            case EMAIL:
-                isEmailValid(text);
-                break;
-            case PHONE_NUMBER:
-                isPhoneNumberValid(text);
-                break;
-            default:
+        if (text.isEmpty()) {
+            canBeEmpty();
+        } else {
+            switch (mTextType) {
+                case NAME:
+                    isNameValid(text);
+                    break;
+                case EMAIL:
+                    isEmailValid(text);
+                    break;
+                case PHONE_NUMBER:
+                    isPhoneNumberValid(text);
+                    break;
+                case GENERAL:
+                    isMyGeneralTextValid(text);
+                default:
+            }
         }
         return mIsValid;
+    }
+
+    /**
+     * this method checking that this field can be empty or not
+     */
+    public void canBeEmpty() {
+        if (mIsRequired) {
+            mIsValid = false;
+            setError("فیلد خالی");
+        } else {
+            mIsValid = true;
+        }
+    }
+
+    /**
+     * this method use for general type of any input that you want. you can create any type that
+     * you want with isOnlyText, isOnlyNumber, minLength, maxLength and length
+     *
+     * @param text of {@link TextInputEditText} that get from isMyTextValid() method
+     */
+    private void isMyGeneralTextValid(String text) {
+        if (text.length() < mMinLength || text.length() < mLength) {
+            setError("طول ورودی کمتر از حد قابل قبول است!!!");
+            mIsValid = false;
+            return;
+        }
+        if (text.length() > mMaxLength) {
+            setError("طول ورودی بیشتر از حد قابل قبول است!!!");
+            mIsValid = false;
+            return;
+        }
+        if (mIsOnlyText) {
+            isNameValid(text);
+            return;
+        }
+        clearFocus();
+        setErrorEnabled(false);
+        mIsValid = true;
     }
 
     /**
@@ -162,14 +225,9 @@ public class InputCustomView extends TextInputLayout {
                 setError("شماره وارد شده صحیح نمیباشد!!!");
             } else {
                 setErrorEnabled(false);
+                clearFocus();
+
             }
-        } else if (mIsRequired == REQUIRED) {
-            Log.d(TAG, "isPhoneValid: in second if");
-            mIsValid = false;
-            setError("فیلد خالی");
-        } else if (mIsRequired == OPTIONAL) {
-            Log.d(TAG, "isPhoneValid: in third if");
-            mIsValid = true;
         }
     }
 
@@ -182,19 +240,13 @@ public class InputCustomView extends TextInputLayout {
         if (!text.isEmpty()) {
             Log.d(TAG, "isNameValid: in first if");
             if (text.matches(".*\\d.*")) {
-                setError("نام نباید شامل عدد باشد!!!");
+                setError("ورودی نباید شامل عدد باشد!!!");
                 mIsValid = false;
             } else {
                 mIsValid = true;
                 setErrorEnabled(false);
+                clearFocus();
             }
-        } else if (mIsRequired == REQUIRED) {
-            Log.d(TAG, "isNameValid: in second if");
-            mIsValid = false;
-            setError("فیلد خالی");
-        } else if (mIsRequired == OPTIONAL) {
-            Log.d(TAG, "isNameValid: in third if");
-            mIsValid = true;
         }
     }
 
@@ -209,15 +261,10 @@ public class InputCustomView extends TextInputLayout {
             mIsValid = matcher.matches();
             if (!mIsValid)
                 setError("ایمیل وارد شده صحیح نمیباشد!!!");
-            else
+            else {
                 setErrorEnabled(false);
-        } else if (mIsRequired == REQUIRED) {
-            Log.d(TAG, "isEmailValid: in second if");
-            mIsValid = false;
-            setError("فیلد خالی");
-        } else if (mIsRequired == OPTIONAL) {
-            Log.d(TAG, "isEmailValid: in third if");
-            mIsValid = true;
+                clearFocus();
+            }
         }
     }
 }

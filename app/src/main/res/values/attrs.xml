@@ -6,14 +6,17 @@
     <declare-styleable name="InputCustomView">
         <attr name="customViewText" format="string" />
         <attr name="customViewHint" format="string" />
+        <attr name="customViewMinLength" format="integer" />
+        <attr name="customViewMaxLength" format="integer" />
+        <attr name="customViewLength" format="integer" />
+        <attr name="customViewIsOnlyText" format="boolean" />
+        <attr name="customViewIsOnlyNumber" format="boolean" />
+        <attr name="customViewIsRequired" format="boolean" />
         <attr name="customViewType" format="integer">
+            <enum name="general" value="0" />
             <enum name="name" value="1" />
             <enum name="phoneNumber" value="2" />
             <enum name="email" value="3" />
-        </attr>
-        <attr name="customViewIsRequired" format="integer">
-            <enum name="TRUE" value="0" />
-            <enum name="FALSE" value="1" />
         </attr>
     </declare-styleable>
 </resources>
