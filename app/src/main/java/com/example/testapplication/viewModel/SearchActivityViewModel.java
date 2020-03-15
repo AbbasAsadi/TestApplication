@@ -2,7 +2,9 @@ package com.example.testapplication.viewModel;
 
 import android.util.Log;
 
-public class SearchActivityViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class SearchActivityViewModel extends ViewModel {
     private static final String TAG = "SearchActivityViewModel";
     private static SearchActivityViewModel mInstance;
 

@@ -21,13 +21,11 @@ import android.widget.Toast;
 
 import com.example.testapplication.R;
 import com.example.testapplication.RecyclerAdapter;
-import com.example.testapplication.Repository;
+import com.example.testapplication.OnlineRepository;
 import com.example.testapplication.databinding.FragmentMainBinding;
-import com.example.testapplication.model.ResponseBody;
 import com.example.testapplication.viewModel.ItemViewModel;
 
 import java.util.List;
-import java.util.Observable;
 
 
 /**
@@ -64,7 +62,7 @@ public class MainFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<ItemViewModel> items = Repository.getInstance().getResponseBodyList();
+        List<ItemViewModel> items = OnlineRepository.getInstance().getResponseBodyList();
         getLiveItemList().setValue(items);
     }
 

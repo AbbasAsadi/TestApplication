@@ -2,7 +2,7 @@ package com.example.testapplication;
 
 import android.util.Log;
 
-import com.example.testapplication.model.ResponseBody;
+import com.example.testapplication.productAnswerModel.ResponseBody;
 import com.example.testapplication.network.RetrofitInstance;
 import com.example.testapplication.network.interfaces.API;
 import com.example.testapplication.viewModel.ItemViewModel;
@@ -14,23 +14,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Repository {
+public class OnlineRepository {
     private static final String TAG = "Repository";
     private static final String BASE_URL = "http://192.168.7.10/api/";
     public static final String TOKEN =
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAACWOUQrCMBBE77LfjaRNbLL98w5eYJtuIIpGui2I4t3d0L_hDW-YL-xlgakfOpB9hgkuKbHItd75CR0UEWWpPk4zr7V-VhaiVvD7pdY5ut7G2OxC2wGsP8BtK6raET1yCAbzmI1fbDA0oKbkkgveRaKsc9JOoIq_P68Xr3aRAAAA.F4Z139aCjjolxvSf4ityJf6XDgh77iCH5SS9n3PdyBJKm0jxEhrrXFUAwahzDSws-iJdwFPX866Mca0Q-IHQig";
-    private static Repository mInstance;
+    private static OnlineRepository mInstance;
     private List<ResponseBody> mResponseBodyList = new ArrayList<>();
     private API mAPI = RetrofitInstance.getInstance(BASE_URL)
             .getRetrofit()
             .create(API.class);
 
-    private Repository() {
+    private OnlineRepository() {
     }
 
-    public static Repository getInstance() {
+    public static OnlineRepository getInstance() {
         if (mInstance == null)
-            mInstance = new Repository();
+            mInstance = new OnlineRepository();
 
         return mInstance;
     }

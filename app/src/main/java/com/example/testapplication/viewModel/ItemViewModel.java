@@ -3,7 +3,7 @@ package com.example.testapplication.viewModel;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.testapplication.model.ResponseBody;
+import com.example.testapplication.productAnswerModel.ResponseBody;
 
 public class ItemViewModel extends ViewModel {
     private ResponseBody mResponseBody;

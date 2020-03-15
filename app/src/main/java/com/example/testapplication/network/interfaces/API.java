@@ -1,6 +1,6 @@
 package com.example.testapplication.network.interfaces;
 
-import com.example.testapplication.model.ResponseBody;
+import com.example.testapplication.productAnswerModel.ResponseBody;
 
 import java.util.List;
 
