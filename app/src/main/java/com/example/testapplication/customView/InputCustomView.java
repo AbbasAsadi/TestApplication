@@ -9,6 +9,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 
+import androidx.annotation.Nullable;
+
 import com.example.testapplication.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,13 +25,13 @@ import java.util.regex.Matcher;
  */
 
 public class InputCustomView extends TextInputLayout {
-    private final String TAG = "InputCustomView";
     //describe type of Input
-    private final int GENERAL = 0;
-    private final int NAME = 1;
-    private final int PHONE_NUMBER = 2;
-    private final int EMAIL = 3;
+    public static final int GENERAL = 0;
+    public static final int NAME = 1;
+    public static final int PHONE_NUMBER = 2;
+    public static final int EMAIL = 3;
 
+    private final String TAG = "InputCustomView";
     private TextInputEditText mEditText;
     private Context mContext;
     private int mTextType;
@@ -108,7 +110,7 @@ public class InputCustomView extends TextInputLayout {
      *
      * @param attrs our custom Attribute that we get that in constructor
      */
-    public void getAttributesValue(AttributeSet attrs) {
+    private void getAttributesValue(AttributeSet attrs) {
         mTypeArray = mContext.getTheme().obtainStyledAttributes(attrs, R.styleable.InputCustomView, 0, 0);
         try {
             mHint = mTypeArray.getString(R.styleable.InputCustomView_customViewHint);
@@ -266,5 +268,15 @@ public class InputCustomView extends TextInputLayout {
                 clearFocus();
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public TextInputEditText getEditText() {
+        return mEditText;
+    }
+
+    public int getTextType() {
+        return mTextType;
     }
 }

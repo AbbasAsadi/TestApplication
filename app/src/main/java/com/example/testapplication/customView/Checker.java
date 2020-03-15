@@ -4,8 +4,12 @@ import android.view.ViewGroup;
 
 import androidx.core.widget.NestedScrollView;
 
+import com.example.testapplication.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * this class check validation of all {@link InputCustomView} that rootView contain
@@ -18,7 +22,7 @@ public class Checker {
     private NestedScrollView mScrollView;
     private ViewGroup mRootView;
     private List<InputCustomView> mCustomViewList = new ArrayList<>();
-
+    private User mUser = new User();
     /**
      * constructor of Checker class
      *
@@ -53,9 +57,31 @@ public class Checker {
             if (!customView.isMyTextValid()) {
                 mScrollView.smoothScrollTo(0, customView.getTop() - 24);
                 return false;
+            } else {
+                createUser(customView);
             }
         }
         return true;
+    }
+
+    private void createUser(InputCustomView customView) {
+
+        String text = customView.getEditText().getText().toString();
+        switch (customView.getTextType()) {
+            case InputCustomView.NAME:
+                mUser.setName(text);
+                break;
+            case InputCustomView.EMAIL:
+                mUser.setEmail(text);
+                break;
+            case InputCustomView.PHONE_NUMBER:
+                mUser.setPhoneNumber(text);
+                break;
+            case InputCustomView.GENERAL:
+
+                break;
+        }
+
     }
 
 }

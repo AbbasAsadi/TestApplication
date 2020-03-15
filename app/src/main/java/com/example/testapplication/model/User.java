@@ -8,20 +8,7 @@ public class User {
     private String mPostalCode;
     private String mCityName;
 
-    public User(String name, String familyName, String email, String phoneNumber, String postalCode, String cityName) {
-        mName = name;
-        mFamilyName = familyName;
-        mEmail = email;
-        mPhoneNumber = phoneNumber;
-        mPostalCode = postalCode;
-        mCityName = cityName;
-    }
-
-    public User(String email, String phoneNumber, String postalCode, String cityName) {
-        mEmail = email;
-        mPhoneNumber = phoneNumber;
-        mPostalCode = postalCode;
-        mCityName = cityName;
+    public User() {
     }
 
     public String getName() {
